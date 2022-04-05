@@ -1,11 +1,20 @@
 const path = require('path');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 let mode = 'development';
+const plugins = [
+  new CleanWebpackPlugin(),
+  new MiniCssExtractPlugin(),
+  new HtmlWebpackPlugin({ template: './src/index.html' }),
+];
 
 if (process.env.NODE_ENV === 'production') {
   mode = 'production';
+} else {
+  plugins.push(new ReactRefreshWebpackPlugin());
 }
 
 module.exports = {
@@ -49,11 +58,7 @@ module.exports = {
     ],
   },
 
-  plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
-  ],
+  plugins,
 
   resolve: {
     extensions: ['.js', '.jsx'],
